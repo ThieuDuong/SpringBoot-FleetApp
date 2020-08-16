@@ -1,0 +1,174 @@
+<table>
+	<!-- Row 0-->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="idEdit" class="col-form-label">ID:</label> <input type="text" class="form-control" id="idEdit" name="id">
+			</div>
+		</td>
+		<td style="padding-left: 100px">
+			<div class="form-group">
+				<label for="dobEdit" class="col-form-label">Date of Birth:</label> <input type="date" class="form-control" id="dobEdit" name="dateOfBirth">
+			</div>
+		</td>
+	</tr>
+	<!-- Row 1-->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="usernameEdit" class="col-form-label">Username:</label> <input type="text" class="form-control" id="usernameEdit" name="username">
+			</div>
+		</td>
+		<td style="padding-left: 100px">
+			<div class="form-group">
+				<label for="hireDateEdit" class="col-form-label">Hire Date:</label> <input type="date" class="form-control" id="hireDateEdit" name="hireDate">
+			</div>
+		</td>
+	</tr>
+
+	<!-- Row 2-->
+	<tr>
+		<td>
+			<div>
+				<label for="ddlTitleEdit" class="col-form-label">Title: </label> <select class="form-control" id="ddlTitleEdit" name="title">
+					<option>-SELECT-</option>
+					<option value="Mr.">Mr.</option>
+					<option value="Ms.">Ms.</option>
+				</select>
+			</div> <br>
+		</td>
+		<td style="padding-left: 100px">
+			<div>
+				<label for="ddlStateEdit" class="col-form-label">State/Province:</label> <select class="form-control" id="ddlStateEdit" name="stateid">
+					<option>-SELECT-</option>
+					<option th:each="state : ${states}" th:value="${state.id}" th:text="${state.name}"></option>
+				</select>
+			</div> <br>
+		</td>
+	</tr>
+
+	<!-- Row 3-->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="intialsEdit" class="col-form-label">Initials:</label> <input type="text" class="form-control" id="intialsEdit" name="initials">
+			</div>
+		</td>
+		<td style="padding-left: 100px">
+			<div class="form-group">
+				<label for="cityEdit" class="col-form-label">City:</label> <input type="text" class="form-control" id="cityEdit" name="city">
+			</div>
+		</td>
+	</tr>
+
+	<!-- Row 4-->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="socialsecurityEdit" class="col-form-label">Social Security No.:</label> <input type="text" class="form-control" id="socialsecurityEdit" name="socialSecurityNumber">
+			</div>
+		</td>
+		<td style="padding-left: 100px">
+			<div class="form-group">
+				<label for="phoneEdit" class="col-form-label">Phone:</label> <input type="text" class="form-control" id="phoneEdit" name="phone">
+			</div>
+		</td>
+	</tr>
+
+	<!-- Row 5-->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="firstNameEdit" class="col-form-label">First Name:</label> <input type="text" class="form-control" id="firstNameEdit" name="firstname">
+			</div>
+		</td>
+		<td style="padding-left: 100px">
+			<div class="form-group">
+				<label for="mobileEdit" class="col-form-label">Mobile:</label> <input type="text" class="form-control" id="mobileEdit" name="mobile">
+			</div>
+		</td>
+	</tr>
+
+	<!-- Row 6-->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="lastNameEdit" class="col-form-label">Last Name:</label> <input type="text" class="form-control" id="lastNameEdit" name="lastname">
+			</div>
+		</td>
+		<td style="padding-left: 100px">
+			<div>
+				<label for="ddlMaritalStatusEdit" class="col-form-label">Marital Status: </label> <select class="form-control" id="ddlMaritalStatusEdit" name="maritalStatus">
+					<option>-SELECT-</option>
+					<option value="Married">Married</option>
+					<option value="Single">Single</option>
+				</select>
+			</div>
+		</td>
+	</tr>
+
+	<!-- Row 7-->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="otherNameEdit" class="col-form-label">Other Name:</label> <input type="text" class="form-control" id="otherNameEdit" name="othername">
+			</div>
+		</td>
+		<td style="padding-left: 100px">
+			<div class="form-group">
+				<label for="emailEdit" class="col-form-label">Email:</label> <input type="email" class="form-control" id="emailEdit" name="email">
+			</div>
+		</td>
+	</tr>
+
+	<!-- Row 8-->
+	<tr>
+		<td>
+			<div>
+				<label for="ddlGenderEdit" class="col-form-label">Gender: </label> <select class="form-control" id="ddlGenderEdit" name="gender">
+					<option>-SELECT-</option>
+					<option value="MALE">MALE</option>
+					<option value="FEMALE">FEMALE</option>
+				</select>
+			</div> <br>
+		</td>
+		<td style="padding-left: 100px">
+			<div>
+				<label for="ddlJobTitleEdit" class="col-form-label">Job Title: </label> <select class="form-control" id="ddlJobTitleEdit" name="jobtitleid">
+					<option>-SELECT-</option>
+					<option th:each="jobtitle : ${jobtitles}" th:value="${jobtitle.id}" th:text="${jobtitle.description}"></option>
+				</select>
+			</div> <br>
+		</td>
+	</tr>
+
+	<!-- Row 9-->
+	<tr>
+		<td>
+			<div>
+				<label for="ddlCountryEdit" class="col-form-label">Nationality: </label> <select class="form-control" id="ddlCountryEdit" name="countryid">
+					<option>-SELECT-</option>
+					<option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.description}"></option>
+				</select>
+			</div> <br>
+		</td>
+		<td style="padding-left: 100px">
+			<div>
+				<label for="ddlEmployeeTypeEdit" class="col-form-label">Employee Type: </label> <select class="form-control" id="ddlEmployeeTypeEdit" name="employeetypeid">
+					<option>-SELECT-</option>
+					<option th:each="employeetype : ${employeetypes}" th:value="${employeetype.id}" th:text="${employeetype.description}"></option>
+				</select>
+			</div> <br>
+		</td>
+	</tr>
+
+	<!-- Row 10-->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="addressEdit" class="col-form-label">Address:</label> <input type="text" class="form-control" id="addressEdit" name="address">
+			</div>
+		</td>
+		<td style="padding-left: 100px"></td>
+	</tr>
+</table>

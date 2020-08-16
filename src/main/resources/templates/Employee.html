@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+<meta name="author" content="GeeksLabs">
+<meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+<link rel="shortcut icon" href="img/favicon.png">
+
+<title>Employee Management</title>
+
+<!-- Bootstrap CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- bootstrap theme -->
+<link href="css/bootstrap-theme.css" rel="stylesheet">
+<!--external css-->
+<!-- font icon -->
+<link href="css/elegant-icons-style.css" rel="stylesheet" />
+<link href="css/font-awesome.min.css" rel="stylesheet" />
+<!-- Custom styles -->
+<link href="css/style.css" rel="stylesheet">
+<link href="css/style-responsive.css" rel="stylesheet" />
+</head>
+<body>
+	<!-- container section start -->
+	<section id="container" class="">
+		<!--header start-->
+		<header th:replace="include/header :: myHeader"> </header>
+		<!--header end-->
+
+		<!--sidebar start-->
+		<aside th:replace="include/sidebar :: mySidebar"></aside>
+		<!--sidebar end-->
+
+		<!--main content start-->
+		<section id="main-content">
+			<section class="wrapper">
+				<div class="row">
+					<div class="col-lg-12">
+						<h3 class="page-header">
+							<i class="fa fa fa-bars"></i>List of Employees
+						</h3>
+						<ol class="breadcrumb">
+							<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+							<li><i class="fa fa-bars"></i>Pages</li>
+							<li><i class="fa fa-square-o"></i>Pages</li>
+						</ol>
+					</div>
+				</div>
+				<!-- page start-->
+
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">New Employee</button>
+				<table class="table table-striped table-advance table-hover">
+					<thead>
+						<tr>
+							<th><i class="icon_key"></i> ID</th>
+							<th><i class="icon_pin"></i> Photo</th>
+							<th><i class="icon_document"></i> Full Name</th>
+							<th><i class="icon_tags"></i> Hire Date</th>
+							<th><i class="icon_tags"></i> Email</th>
+							<th><i class="icon_tags"></i> City</th>
+							<th><i class="icon_tags"></i> Phone</th>
+							<th><i class="icon_cogs"></i> Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="employee:${employees}">
+							<td th:text="${employee.id}"></td>
+							<td><a id="photoButton" th:href="@{'/img/photo/avatar1.png'}"> <img th:src="@{'/img/photo/avatar1.png'}" width="40" height="40">
+							</a></td>
+							<td th:text="${employee.firstname} + ' ' + ${employee.lastname}"></td>
+							<td th:text="${employee.hireDate}"></td>
+							<td th:text="${employee.email}"></td>
+							<td th:text="${employee.city}"></td>
+							<td th:text="${employee.phone}"></td>
+							<td>
+								<div class="btn-group" id="actionGroup">
+									<a th:href="@{/employee/findById(id=${employee.id})}" class="btn btn-primary" id="editButton"><i class="icon_pencil-edit"></i> </a> <a th:href="@{/employee/findById(id=${employee.id})}" class="btn btn-success" id="detailsButton"><i class="icon_document_alt"></i></a> <a
+										th:href="@{/employee/delete(id=${employee.id})}" class="btn btn-danger" id="deleteButton"><i class="icon_close_alt2"></i></a>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- page end-->
+			</section>
+		</section>
+		<!--main content end-->
+		<div class="text-right"></div>
+	</section>
+	<!-- container section end -->
+
+	<!-- Add New Employee -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">New Employee</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/employee/addNew}" method="post">
+						<table>
+							<!-- Row 0-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="idNew" class="col-form-label">ID:</label> <input type="text" class="form-control" id="idNew" name="id" readonly>
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="dobNew" class="col-form-label">Date of Birth:</label> <input type="date" class="form-control" id="dobNew" name="dateOfBirth">
+									</div>
+								</td>
+							</tr>
+							<!-- Row 1-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="usernameNew" class="col-form-label">Username:</label> <input type="text" class="form-control" id="usernameNew" name="username">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="hireDateNew" class="col-form-label">Hire Date:</label> <input type="date" class="form-control" id="hireDateNew" name="hireDate">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 2-->
+							<tr>
+								<td>
+									<div>
+										<label for="ddlTitleNew" class="col-form-label">Title: </label> <select class="form-control" id="ddlTitleNew" name="title">
+											<option>-SELECT-</option>
+											<option value="Mr.">Mr.</option>
+											<option value="Ms.">Ms.</option>
+										</select>
+									</div> <br>
+								</td>
+								<td style="padding-left: 100px">
+									<div>
+										<label for="ddlStateNew" class="col-form-label">State/Province:</label> <select class="form-control" id="ddlStateNew" name="stateid">
+											<option>-SELECT-</option>
+											<option th:each="state : ${states}" th:value="${state.id}" th:text="${state.name}"></option>
+										</select>
+									</div> <br>
+								</td>
+
+							</tr>
+
+							<!-- Row 3-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="intialsNew" class="col-form-label">Initials:</label> <input type="text" class="form-control" id="intialsNew" name="initials">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="cityNew" class="col-form-label">City:</label> <input type="text" class="form-control" id="cityNew" name="city">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 4-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="socialsecurityNew" class="col-form-label">Social Security No.:</label> <input type="text" class="form-control" id="socialsecurityNew" name="socialSecurityNumber">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="phoneNew" class="col-form-label">Phone:</label> <input type="text" class="form-control" id="phoneNew" name="phone">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 5-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="firstNameNew" class="col-form-label">First Name:</label> <input type="text" class="form-control" id="firstNameNew" name="firstname">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="mobileNew" class="col-form-label">Mobile:</label> <input type="text" class="form-control" id="mobileNew" name="mobile">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 6-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="lastNameNew" class="col-form-label">Last Name:</label> <input type="text" class="form-control" id="lastNameNew" name="lastname">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div>
+										<label for="ddlMaritalStatusNew" class="col-form-label">Marital Status: </label> <select class="form-control" id="ddlMaritalStatusNew" name="maritalStatus">
+											<option>-SELECT-</option>
+											<option value="Married">Married</option>
+											<option value="Single">Single</option>
+										</select>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 7-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="otherNameNew" class="col-form-label">Other Name:</label> <input type="text" class="form-control" id="otherNameNew" name="othername">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="emailNew" class="col-form-label">Email:</label> <input type="email" class="form-control" id="emailNew" name="email">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 8-->
+							<tr>
+								<td>
+									<div>
+										<label for="ddlGenderNew" class="col-form-label">Gender: </label> <select class="form-control" id="ddlGenderNew" name="gender">
+											<option>-SELECT-</option>
+											<option value="MALE">MALE</option>
+											<option value="FEMALE">FEMALE</option>
+										</select>
+									</div> <br>
+								</td>
+								<td style="padding-left: 100px">
+									<div>
+										<label for="ddlJobTitleNew" class="col-form-label">Job Title: </label> <select class="form-control" id="ddlJobTitleNew" name="jobtitleid">
+											<option>-SELECT-</option>
+											<option th:each="jobtitle : ${jobtitles}" th:value="${jobtitle.id}" th:text="${jobtitle.description}"></option>
+										</select>
+									</div> <br>
+								</td>
+							</tr>
+
+							<!-- Row 9-->
+							<tr>
+								<td>
+									<div>
+										<label for="ddlCountryNew" class="col-form-label">Nationality: </label> <select class="form-control" id="ddlCountryNew" name="countryid">
+											<option>-SELECT-</option>
+											<option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.description}"></option>
+										</select>
+									</div> <br>
+								</td>
+								<td style="padding-left: 100px">
+									<div>
+										<label for="ddlEmployeeTypeNew" class="col-form-label">Employee Type: </label> <select class="form-control" id="ddlEmployeeTypeNew" name="employeetypeid">
+											<option>-SELECT-</option>
+											<option th:each="employeetype : ${employeetypes}" th:value="${employeetype.id}" th:text="${employeetype.description}"></option>
+										</select>
+									</div> <br>
+								</td>
+							</tr>
+
+							<!-- Row 10-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="addressNew" class="col-form-label">Address:</label> <input type="text" class="form-control" id="addressNew" name="address">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="photoNew" class="col-form-label">Image:</label> <input type="file" class="form-control" id="photoNew" name="photo" placeholder="Select File">
+									</div>
+								</td>
+							</tr>
+						</table>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Employee -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Edit Employee</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/employee/edit}">
+						<table>
+							<!-- Row 0-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="idEdit" class="col-form-label">ID:</label> <input type="text" class="form-control" id="idEdit" name="id" readonly>
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="dobEdit" class="col-form-label">Date of Birth:</label> <input type="date" class="form-control" id="dobEdit" name="dateOfBirth">
+									</div>
+								</td>
+							</tr>
+							<!-- Row 1-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="usernameEdit" class="col-form-label">Username:</label> <input type="text" class="form-control" id="usernameEdit" name="username">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="hireDateEdit" class="col-form-label">Hire Date:</label> <input type="date" class="form-control" id="hireDateEdit" name="hireDate">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 2-->
+							<tr>
+								<td>
+									<div>
+										<label for="ddlTitleEdit" class="col-form-label">Title: </label> <select class="form-control" id="ddlTitleEdit" name="title">
+											<option>-SELECT-</option>
+											<option value="Mr.">Mr.</option>
+											<option value="Ms.">Ms.</option>
+										</select>
+									</div> <br>
+								</td>
+								<td style="padding-left: 100px">
+									<div>
+										<label for="ddlStateEdit" class="col-form-label">State/Province:</label> <select class="form-control" id="ddlStateEdit" name="stateid">
+											<option>-SELECT-</option>
+											<option th:each="state : ${states}" th:value="${state.id}" th:text="${state.name}"></option>
+										</select>
+									</div> <br>
+								</td>
+							</tr>
+
+							<!-- Row 3-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="intialsEdit" class="col-form-label">Initials:</label> <input type="text" class="form-control" id="intialsEdit" name="initials">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="cityEdit" class="col-form-label">City:</label> <input type="text" class="form-control" id="cityEdit" name="city">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 4-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="socialsecurityEdit" class="col-form-label">Social Security No.:</label> <input type="text" class="form-control" id="socialsecurityEdit" name="socialSecurityNumber">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="phoneEdit" class="col-form-label">Phone:</label> <input type="text" class="form-control" id="phoneEdit" name="phone">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 5-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="firstNameEdit" class="col-form-label">First Name:</label> <input type="text" class="form-control" id="firstNameEdit" name="firstname">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="mobileEdit" class="col-form-label">Mobile:</label> <input type="text" class="form-control" id="mobileEdit" name="mobile">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 6-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="lastNameEdit" class="col-form-label">Last Name:</label> <input type="text" class="form-control" id="lastNameEdit" name="lastname">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div>
+										<label for="ddlMaritalStatusEdit" class="col-form-label">Marital Status: </label> <select class="form-control" id="ddlMaritalStatusEdit" name="maritalStatus">
+											<option>-SELECT-</option>
+											<option value="Married">Married</option>
+											<option value="Single">Single</option>
+										</select>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 7-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="otherNameEdit" class="col-form-label">Other Name:</label> <input type="text" class="form-control" id="otherNameEdit" name="othername">
+									</div>
+								</td>
+								<td style="padding-left: 100px">
+									<div class="form-group">
+										<label for="emailEdit" class="col-form-label">Email:</label> <input type="email" class="form-control" id="emailEdit" name="email">
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 8-->
+							<tr>
+								<td>
+									<div>
+										<label for="ddlGenderEdit" class="col-form-label">Gender: </label> <select class="form-control" id="ddlGenderEdit" name="gender">
+											<option>-SELECT-</option>
+											<option value="MALE">MALE</option>
+											<option value="FEMALE">FEMALE</option>
+										</select>
+									</div> <br>
+								</td>
+								<td style="padding-left: 100px">
+									<div>
+										<label for="ddlJobTitleEdit" class="col-form-label">Job Title: </label> <select class="form-control" id="ddlJobTitleEdit" name="jobtitleid">
+											<option>-SELECT-</option>
+											<option th:each="jobtitle : ${jobtitles}" th:value="${jobtitle.id}" th:text="${jobtitle.description}"></option>
+										</select>
+									</div> <br>
+								</td>
+							</tr>
+
+							<!-- Row 9-->
+							<tr>
+								<td>
+									<div>
+										<label for="ddlCountryEdit" class="col-form-label">Nationality: </label> <select class="form-control" id="ddlCountryEdit" name="countryid">
+											<option>-SELECT-</option>
+											<option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.description}"></option>
+										</select>
+									</div> <br>
+								</td>
+								<td style="padding-left: 100px">
+									<div>
+										<label for="ddlEmployeeTypeEdit" class="col-form-label">Employee Type: </label> <select class="form-control" id="ddlEmployeeTypeEdit" name="employeetypeid">
+											<option>-SELECT-</option>
+											<option th:each="employeetype : ${employeetypes}" th:value="${employeetype.id}" th:text="${employeetype.description}"></option>
+										</select>
+									</div> <br>
+								</td>
+							</tr>
+
+							<!-- Row 10-->
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="addressEdit" class="col-form-label">Address:</label> <input type="text" class="form-control" id="addressEdit" name="address">
+									</div>
+								</td>
+								<td style="padding-left: 100px"></td>
+							</tr>
+						</table>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">Update</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Employee -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirm Delete</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure to want to delete this employee?</p>
+				</div>
+				<div class="modal-footer">
+					<a type="button" id="confirmDeleteButton" class="btn btn-primary" href="#">Delete</a>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Photo Employee -->
+	<div class="modal fade" id="photoModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Photo</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<img id="employeePhoto" src="" width="90%" height="90%" />
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- javascripts -->
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!-- nice scroll -->
+	<script src="js/jquery.scrollTo.min.js"></script>
+	<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+	<!--custome script for all page-->
+	<script src="js/scripts.js"></script>
+	<script type="text/javascript" src="../static/js/employee.js" th:src="@{/js/employee.js}"></script>
+</body>
+</html>

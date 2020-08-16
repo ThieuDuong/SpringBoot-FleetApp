@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+<meta name="author" content="GeeksLabs">
+<meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+<link rel="shortcut icon" href="img/favicon.png">
+
+<title>Vehicles Maintenance Management</title>
+
+<!-- Bootstrap CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- bootstrap theme -->
+<link href="css/bootstrap-theme.css" rel="stylesheet">
+<!--external css-->
+<!-- font icon -->
+<link href="css/elegant-icons-style.css" rel="stylesheet" />
+<link href="css/font-awesome.min.css" rel="stylesheet" />
+<!-- Custom styles -->
+<link href="css/style.css" rel="stylesheet">
+<link href="css/style-responsive.css" rel="stylesheet" />
+</head>
+<body>
+	<!-- container section start -->
+	<section id="container" class="">
+		<!--header start-->
+		<header th:replace="include/header :: myHeader"> </header>
+		<!--header end-->
+
+		<!--sidebar start-->
+		<aside th:replace="include/sidebar :: mySidebar"></aside>
+		<!--sidebar end-->
+
+		<!--main content start-->
+		<section id="main-content">
+			<section class="wrapper">
+				<div class="row">
+					<div class="col-lg-12">
+						<h3 class="page-header">
+							<i class="fa fa fa-bars"></i> List of Vehicle Maintenance
+						</h3>
+						<ol class="breadcrumb">
+							<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+							<li><i class="fa fa-bars"></i>Pages</li>
+							<li><i class="fa fa-square-o"></i>Pages</li>
+						</ol>
+					</div>
+				</div>
+				<!-- page start-->
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">New Vehicle Maintenance</button>
+				<table class="table table-striped table-advance table-hover">
+					<thead>
+						<tr>
+							<th><i class="icon_id_alt"></i> ID</th>
+							<th><i class="icon_document"></i> Vehicle</th>
+							<th><i class="icon_pin"></i> Start Date</th>
+							<th><i class="icon_tags"></i> End Date</th>
+							<th><i class="icon_compass"></i> Price</th>
+							<th><i class="icon_house"></i> Supplier</th>
+							<th><i class="icon_house"></i> Remarks</th>
+							<th><i class="icon_cogs"></i> Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="vehiclemaintenance:${vehiclemaintenances}">
+							<td th:text="${vehiclemaintenance.id}"></td>
+							<td th:text="${vehiclemaintenance.vehicle.name}"></td>
+							<td th:text="${vehiclemaintenance.startDate}"></td>
+							<td th:text="${vehiclemaintenance.endDate}"></td>
+							<td th:text="${vehiclemaintenance.price}"></td>
+							<td th:text="${vehiclemaintenance.supplier.name}"></td>
+							<td th:text="${vehiclemaintenance.remarks}"></td>
+							<td>
+								<div class="btn-group">
+									<a class="btn btn-primary" id="editButton" th:href="@{/vehiclemaintenance/findById(id=${vehiclemaintenance.id})}"><i class="icon_pencil-edit"></i> </a> <a class="btn btn-success" id="detailsButton" th:href="@{/vehiclemaintenance/findById(id=${vehiclemaintenance.id})}"><i
+										class="icon_document_alt"></i></a> <a class="btn btn-danger" id="deleteButton" th:href="@{/vehiclemaintenance/delete(id=${vehiclemaintenance.id})}"><i class="icon_close_alt2"></i></a>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- page end-->
+			</section>
+		</section>
+		<!--main content end-->
+
+		<!-- Add New Vehicle Maintenance -->
+		<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">New Vehicle Maintenance</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/vehiclemaintenance/addNew}" method="post">
+							<div>
+								<label for="ddlVehicleDetails" class="col-form-label">Vehicle: </label> <select class="form-control" name="vehicleid">
+									<option selected="selected" id="ddlVehicleDetails">-SELECT-</option>
+									<option th:each="vehicle:${vehicles}" th:value="${vehicle.id}" th:text="${vehicle.name}"></option>
+								</select>
+							</div>
+							<br>
+							<div>
+								<label for="ddlSupplierDetails" class="col-form-label">Supplier: </label> <select class="form-control" name="supplierid">
+									<option>-SELECT-</option>
+									<option th:each="supplier:${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+								</select>
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="startDateNew" class="col-form-label">Start Date:</label> <input type="datetime-local" class="form-control" id="startDateNew" name="startDate">
+							</div>
+							<div class="form-group">
+								<label for="endDateNew" class="col-form-label">End Date:</label> <input type="datetime-local" class="form-control" id="endDateNew" name="endDate">
+							</div>
+							<div class="form-group">
+								<label for="priceNew" class="col-form-label">Price:</label> <input type="text" class="form-control" id="priceNew" name="price">
+							</div>
+							<div class="form-group">
+								<label for="remarksNew" class="col-form-label">Remarks:</label> <input type="text" class="form-control" id="remarksNew" name="remarks">
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Edit Vehicle Maintenance -->
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Edit Country</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/vehiclemaintenance/edit}">
+							<div class="form-group">
+								<label for="descriptionEdit" class="col-form-label">ID:</label> <input type="text" class="form-control" id="idEdit" name="id" readonly>
+							</div>
+							<div>
+								<label for="ddlVehicleEdit" class="col-form-label">Vehicle: </label> <select class="form-control" id="ddlVehicleEdit" name="vehicleid">
+									<option>-SELECT-</option>
+									<option th:each="vehicle:${vehicles}" th:value="${vehicle.id}" th:text="${vehicle.name}"></option>
+								</select>
+							</div>
+							<br>
+							<div>
+								<label for="ddlSupplierDetails" class="col-form-label">Supplier: </label> <select class="form-control" id="ddlSupplierDetails" name="supplierid">
+									<option>-SELECT-</option>
+									<option th:each="supplier:${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+								</select>
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="startDateEdit" class="col-form-label">Start Date:</label> <input type="datetime-local" class="form-control" id="startDateEdit" name="startDate">
+							</div>
+							<div class="form-group">
+								<label for="endDateEdit" class="col-form-label">End Date:</label> <input type="datetime-local" class="form-control" id="endDateEdit" name="endDate">
+							</div>
+							<div class="form-group">
+								<label for="priceEdit" class="col-form-label">Price:</label> <input type="text" class="form-control" id="priceEdit" name="price">
+							</div>
+							<div class="form-group">
+								<label for="remarksEdit" class="col-form-label">Remarks:</label> <input type="text" class="form-control" id="remarksEdit" name="remarks">
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">Update</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Delete Vehicle Maintenance -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Confirm Delete</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure to want to delete this vehicle maintenance?</p>
+					</div>
+					<div class="modal-footer">
+						<a type="button" id="confirmDeleteButton" class="btn btn-primary" href="#">Delete</a>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-right">
+			<div class="credits"></div>
+		</div>
+	</section>
+	<!-- container section end -->
+	<!-- javascripts -->
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!-- nice scroll -->
+	<script src="js/jquery.scrollTo.min.js"></script>
+	<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+	<!--custome script for all page-->
+	<script src="js/scripts.js"></script>
+	<script type="text/javascript" src="../static/js/vehiclemaintenance.js" th:src="@{/js/vehiclemaintenance.js}"></script>
+
+</body>
+</html>
