@@ -36,7 +36,7 @@ public class CountryController {
 
 	@GetMapping("/countries")
 	public String getCountries(Model model) {
-		System.out.println(countryService.countCountryColumn());
+		System.out.println(countryService.getColumnName());
 		List<Country> countryList = countryService.getCountries();
 		model.addAttribute("countries", countryList);
 		return "Country";
@@ -70,23 +70,26 @@ public class CountryController {
 	public String exportCountriesToExcel(Model model) throws IOException {
 		DateTimeFormatter datetimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 		LocalDateTime dateTimeNow = LocalDateTime.now();
-		
+
 		Workbook workbook = new XSSFWorkbook();
 
-		//Create sheet name "Countries"
+		// Create sheet name "Countries"
 		Sheet sheet = workbook.createSheet("Countries");
-		
-		//Create column
-		sheet.setColumnWidth(0, 5000);
-		sheet.setColumnWidth(1, 5000);
-		sheet.setColumnWidth(2, 5000);
-		sheet.setColumnWidth(3, 5000);
-		sheet.setColumnWidth(4, 5000);
-		sheet.setColumnWidth(5, 5000);
-		
+
+		// Create column
+		for (int i = 0; i < countryService.countCountryColumn() - 1; i++) {
+			sheet.setColumnWidth(i, 5000);
+		}
+//		sheet.setColumnWidth(0, 5000);
+//		sheet.setColumnWidth(1, 5000);
+//		sheet.setColumnWidth(2, 5000);
+//		sheet.setColumnWidth(3, 5000);
+//		sheet.setColumnWidth(4, 5000);
+//		sheet.setColumnWidth(5, 5000);
+
 		Row headerRow = sheet.createRow(0);
 
-		//Format Header Style
+		// Format Header Style
 		CellStyle headerStyle = workbook.createCellStyle();
 		headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
 		headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -97,76 +100,76 @@ public class CountryController {
 		fontHeader.setFontHeightInPoints((short) 14);
 		headerStyle.setFont(fontHeader);
 
-		//Tạo ra cell dòng 1 cột 1
+		// Tạo ra cell dòng 1 cột 1
 		Cell headerCell00 = headerRow.createCell(0);
 		headerCell00.setCellValue("ID");
 		headerCell00.setCellStyle(headerStyle);
 
-		//Tạo ra cell dòng 1 cột 2
+		// Tạo ra cell dòng 1 cột 2
 		Cell headerCell01 = headerRow.createCell(1);
 		headerCell01.setCellValue("Name");
 		headerCell01.setCellStyle(headerStyle);
-		
-		//Tạo ra cell dòng 1 cột 3
+
+		// Tạo ra cell dòng 1 cột 3
 		Cell headerCell02 = headerRow.createCell(2);
 		headerCell02.setCellValue("Capital");
 		headerCell02.setCellStyle(headerStyle);
-		
-		//Tạo ra cell dòng 1 cột 4
+
+		// Tạo ra cell dòng 1 cột 4
 		Cell headerCell03 = headerRow.createCell(3);
 		headerCell03.setCellValue("Code");
 		headerCell03.setCellStyle(headerStyle);
-		
-		//Tạo ra cell dòng 1 cột 5
+
+		// Tạo ra cell dòng 1 cột 5
 		Cell headerCell04 = headerRow.createCell(4);
 		headerCell04.setCellValue("Continent");
 		headerCell04.setCellStyle(headerStyle);
-		
-		//Tạo ra cell dòng 1 cột 6
+
+		// Tạo ra cell dòng 1 cột 6
 		Cell headerCell05 = headerRow.createCell(5);
 		headerCell05.setCellValue("Nationality");
 		headerCell05.setCellStyle(headerStyle);
 
-		//Format Row Style
+		// Format Row Style
 		CellStyle rowStyle = workbook.createCellStyle();
 		rowStyle.setWrapText(true);
 		rowStyle.setAlignment(HorizontalAlignment.CENTER);
-		
+
 		XSSFFont fontRow = ((XSSFWorkbook) workbook).createFont();
 		fontRow.setFontName("Arial");
 		fontRow.setFontHeightInPoints((short) 12);
 		rowStyle.setFont(fontRow);
-		
-		//Import data to cell
+
+		// Import data to cell
 		for (int i = 0; i < countryService.getCountries().size(); i++) {
 			Row row = sheet.createRow(i + 1);
-			
-			//Country ID
+
+			// Country ID
 			Cell cell = row.createCell(0);
 			cell.setCellValue(countryService.getCountries().get(i).getId());
 			cell.setCellStyle(rowStyle);
-			
-			//Country Name
+
+			// Country Name
 			cell = row.createCell(1);
 			cell.setCellValue(countryService.getCountries().get(i).getDescription());
 			cell.setCellStyle(rowStyle);
-			
-			//Country Capital
+
+			// Country Capital
 			cell = row.createCell(2);
 			cell.setCellValue(countryService.getCountries().get(i).getCapital());
 			cell.setCellStyle(rowStyle);
-			
-			//Country Code
+
+			// Country Code
 			cell = row.createCell(3);
 			cell.setCellValue(countryService.getCountries().get(i).getCode());
 			cell.setCellStyle(rowStyle);
-			
-			//Country Continent
+
+			// Country Continent
 			cell = row.createCell(4);
 			cell.setCellValue(countryService.getCountries().get(i).getContinent());
 			cell.setCellStyle(rowStyle);
-			
-			//Country Nationality
+
+			// Country Nationality
 			cell = row.createCell(5);
 			cell.setCellValue(countryService.getCountries().get(i).getNationality());
 			cell.setCellStyle(rowStyle);
@@ -175,7 +178,8 @@ public class CountryController {
 		File currDir = new File("\\F:\\FleetApp_Excel_Export\\Country_Export\\");
 		System.out.println("current direction: " + currDir);
 		String path = currDir.getAbsolutePath();
-		String fileLocation = path.substring(0, path.length()) + "\\Country_Export_" + datetimeFormat.format(dateTimeNow) + ".xlsx" ;
+		String fileLocation = path.substring(0, path.length()) + "\\Country_Export_"
+				+ datetimeFormat.format(dateTimeNow) + ".xlsx";
 		System.out.println("fileLocation: " + fileLocation);
 
 		FileOutputStream outputStream = new FileOutputStream(fileLocation);
@@ -184,5 +188,5 @@ public class CountryController {
 
 		return "redirect:/countries";
 	}
-	
+
 }

@@ -37,4 +37,8 @@ public class CountryService {
 	public Integer countCountryColumn(){
 		return countryRepository.countCountryColumn();
 	}
+	
+	public List<String> getColumnName(){
+		return countryRepository.getColumnName();
+	}
 }
