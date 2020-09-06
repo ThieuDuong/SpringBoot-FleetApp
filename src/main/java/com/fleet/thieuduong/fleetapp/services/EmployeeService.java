@@ -41,6 +41,10 @@ public class EmployeeService implements FilesStorageService {
 	public void deleteEmployee(int id) {
 		employeeRepository.deleteById(id);
 	}
+	
+	public Employee findByUsername(String un) {
+		return employeeRepository.findByUsername(un);
+	}
 
 	/********** Upload file ***************/
 	private final Path root = Paths.get("src/main/resources/static/img/photo");

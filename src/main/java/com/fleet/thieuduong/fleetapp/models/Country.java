@@ -31,5 +31,5 @@ public class Country {
 	@ManyToOne
 	@JoinColumn(name = "countryid", insertable = false, updatable = false)
 	private Country country;
-
+	
 }

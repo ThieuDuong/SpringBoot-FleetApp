@@ -12,5 +12,5 @@ import com.fleet.thieuduong.fleetapp.models.State;
 @Repository
 public interface StateRepository extends JpaRepository<State, Integer>{
 	@Query("SELECT s.name FROM State s WHERE s.countryid = :countryid")
-	public List<String> findStateNameByCountryId(@Param("countryid") Integer countryid);
+	public List<String> findStateNameByCountryId(@Param("countryid") Integer State );
 }

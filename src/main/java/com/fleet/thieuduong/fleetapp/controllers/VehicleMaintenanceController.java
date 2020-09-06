@@ -29,7 +29,8 @@ public class VehicleMaintenanceController {
 
 	@GetMapping("/vehiclemaintenances")
 	public String getVehicleMaintenances(Model model) {
-		model.addAttribute("vehiclemaintenances", vehicleMaintenanceService.getVehicleMaintenances());
+		System.out.println(vehicleMaintenanceService.getVehicleMaintenances());
+		model.addAttribute("maintenances", vehicleMaintenanceService.getVehicleMaintenances());
 		model.addAttribute("suppliers", supplierService.getSuppliers());
 		model.addAttribute("vehicles", vehicleService.getVehicles());
 		return "VehicleMaintenance";

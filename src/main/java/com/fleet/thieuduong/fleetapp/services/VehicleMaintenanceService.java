@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.fleet.thieuduong.fleetapp.models.VehicleMaintenance;
 import com.fleet.thieuduong.fleetapp.repositories.VehicleMaintenanceRepository;
 
-
 @Service
 public class VehicleMaintenanceService {
 	@Autowired
