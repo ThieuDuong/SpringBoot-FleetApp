@@ -21,12 +21,12 @@ public class Country {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private String code;
-	private String capital;
-	private String description;
-	private String nationality;
-	private String continent;
+	public Integer id;
+	public String code;
+	public String capital;
+	public String description;
+	public String nationality;
+	public String continent;
 
 	@ManyToOne
 	@JoinColumn(name = "countryid", insertable = false, updatable = false)

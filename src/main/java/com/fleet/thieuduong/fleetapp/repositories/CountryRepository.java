@@ -11,10 +11,8 @@ import com.fleet.thieuduong.fleetapp.models.Country;
 
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Integer> {
-
-	@Query(value = "select count(*) from information_schema.columns where table_name = '#{#entityName}'", nativeQuery=true)
-	public Integer countCountryColumn();
 	
-	@Query(value = "select column_name from information_schema.columns where table_name = '#{#entityName}'", nativeQuery=true)
+	@Query(value = "select column_name from information_schema.columns where table_name = '#{#entityName}' order by ordinal_position", nativeQuery=true)
 	public List<String> getColumnName();
+	
 }
