@@ -41,7 +41,6 @@ public class CountryController {
 
 	@GetMapping("/countries")
 	public String getCountries(Model model) {
-
 		List<Country> countryList = countryService.getCountries();
 		model.addAttribute("countries", countryList);
 		return "Country";

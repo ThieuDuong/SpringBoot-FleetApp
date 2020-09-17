@@ -26,5 +26,4 @@ public class ExcelExportFormat {
 		fontRow.setFontHeightInPoints((short) 12);
 		rowStyle.setFont(fontRow);
 	}
-
 }

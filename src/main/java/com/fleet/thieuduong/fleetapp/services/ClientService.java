@@ -33,4 +33,8 @@ public class ClientService {
 	public void deleteClient(int id) {
 		clientRepository.deleteById(id);
 	}
+	
+	public List<String> getColumnName(){
+		return clientRepository.getColumnName();
+	}
 }

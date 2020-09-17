@@ -34,7 +34,6 @@ public class CountryService {
 		countryRepository.deleteById(id);
 	}
 	
-	
 	public List<String> getColumnName(){
 		return countryRepository.getColumnName();
 	}
