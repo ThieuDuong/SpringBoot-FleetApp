@@ -12,5 +12,5 @@ import com.fleet.thieuduong.fleetapp.models.Country;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Integer> {
 	@Query(value = "select column_name from information_schema.columns where table_name = '#{#entityName}' order by ordinal_position", nativeQuery=true)
-	public List<String> getColumnName();
+	public List<String> getCountryColumnName();
 }

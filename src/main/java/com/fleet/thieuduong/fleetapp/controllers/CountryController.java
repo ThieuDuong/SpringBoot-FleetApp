@@ -15,12 +15,15 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fleet.thieuduong.fleetapp.export.ExcelExportFormat;
@@ -38,11 +41,16 @@ public class CountryController {
 	// Excel File Location
 	public static final String currentDirection = "\\F:\\FleetApp_Excel_Export\\Country_Export\\";
 	public static final String currentLocation = "\\Country_Export_";
+	
+	
 
 	@GetMapping("/countries")
-	public String getCountries(Model model) {
-		List<Country> countryList = countryService.getCountries();
-		model.addAttribute("countries", countryList);
+	public String getCountries(Model model, @RequestParam(defaultValue = "0") int page) {
+		List<Country> countries = countryService.getCountries();
+		Page<Country> countriesPagination = countryService.getCountriesPagination(page);
+		model.addAttribute("countries", countries);
+		model.addAttribute("countriesPagination", countriesPagination);
+		model.addAttribute("currentPage",page);
 		return "Country";
 	}
 
@@ -92,16 +100,20 @@ public class CountryController {
 		excelExportFormat.formatValueCellStyle(rowStyle, fontRow);
 
 		// Create header row
+		
+		List<Country> countryList = countryService.getCountries();
+		List<String> countryColumnName = countryService.getColumnName();
+		
 		XSSFRow headerRow = sheet.createRow(0);
-		int countColumnName = countryService.getColumnName().size() - 1;
-		int sizeListCountries = countryService.getCountries().size();
+		int countColumnName = countryColumnName.size() - 1;
+		int sizeListCountries = countryList.size();
 
 		for (int i = 0; i < countColumnName; i++) {
 			// Create column
 			sheet.setColumnWidth(i, 5000);
 			// Create header cell, set value and format this cell
 			XSSFCell headerCell = headerRow.createCell(i);
-			headerCell.setCellValue(countryService.getColumnName().get(i));
+			headerCell.setCellValue(countryColumnName.get(i));
 			headerCell.setCellStyle(headerStyle);
 		}
 
@@ -110,27 +122,27 @@ public class CountryController {
 			XSSFRow row = sheet.createRow(i + 1);
 
 			XSSFCell cell = row.createCell(0);
-			cell.setCellValue(countryService.getCountries().get(i).getId());
+			cell.setCellValue(countryList.get(i).getId());
 			cell.setCellStyle(rowStyle);
 
 			cell = row.createCell(1);
-			cell.setCellValue(countryService.getCountries().get(i).getCapital());
+			cell.setCellValue(countryList.get(i).getCapital());
 			cell.setCellStyle(rowStyle);
 
 			cell = row.createCell(2);
-			cell.setCellValue(countryService.getCountries().get(i).getCode());
+			cell.setCellValue(countryList.get(i).getCode());
 			cell.setCellStyle(rowStyle);
 
 			cell = row.createCell(3);
-			cell.setCellValue(countryService.getCountries().get(i).getContinent());
+			cell.setCellValue(countryList.get(i).getContinent());
 			cell.setCellStyle(rowStyle);
 
 			cell = row.createCell(4);
-			cell.setCellValue(countryService.getCountries().get(i).getDescription());
+			cell.setCellValue(countryList.get(i).getDescription());
 			cell.setCellStyle(rowStyle);
 
 			cell = row.createCell(5);
-			cell.setCellValue(countryService.getCountries().get(i).getNationality());
+			cell.setCellValue(countryList.get(i).getNationality());
 			cell.setCellStyle(rowStyle);
 		}
 

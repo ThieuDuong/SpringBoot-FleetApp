@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.fleet.thieuduong.fleetapp.models.Country;
@@ -18,7 +20,12 @@ public class CountryService {
 	public List<Country> getCountries() {
 		return countryRepository.findAll();
 	}
-
+	
+	// Pagination Countries
+	public Page<Country> getCountriesPagination(int page) {
+		return countryRepository.findAll(PageRequest.of(page, 13));
+	}
+	
 	// New Country
 	public void saveCountry(Country country) {
 		countryRepository.save(country);
@@ -35,6 +42,6 @@ public class CountryService {
 	}
 	
 	public List<String> getColumnName(){
-		return countryRepository.getColumnName();
+		return countryRepository.getCountryColumnName();
 	}
 }

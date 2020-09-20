@@ -45,8 +45,7 @@
 						<div class="col-sm-6">
 							<i></i>
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add New</button>
-							<i></i>
-							<a class="btn btn-success" th:href="@{/countries/exportToExcel}">Export </a>
+							<i></i> <a class="btn btn-success" th:href="@{/countries/exportToExcel}">Export </a>
 							<!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Export</button> -->
 						</div>
 					</div>
@@ -66,7 +65,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="country:${countries}">
+						<tr th:each="country:${countriesPagination.content}">
 							<td th:text="${country.id}"></td>
 							<td th:text="${country.description}"></td>
 							<td th:text="${country.capital}"></td>
@@ -75,13 +74,18 @@
 							<td th:text="${country.nationality}"></td>
 							<td>
 								<div class="btn-group">
-									<a class="btn btn-info" id="editButton" th:href="@{/countries/findById(id=${country.id})}"><i class="icon_pencil-edit"></i> </a> <a class="btn btn-success" id="detailsButton" th:href="@{/countries/findById(id=${country.id})}"><i class="icon_document_alt"></i></a> <a
-										class="btn btn-danger" id="deleteButton" th:href="@{/countries/delete(id=${country.id})}"><i class="icon_close_alt2"></i></a>
+									<a class="btn btn-info" id="editButton" th:href="@{/countries/findById(id=${country.id})}"><i class="icon_pencil-edit"></i> </a> <a class="btn btn-success" id="detailsButton" th:href="@{/countries/findById(id=${country.id})}"><i class="icon_document_alt"></i></a> <a class="btn btn-danger"
+										id="deleteButton" th:href="@{/countries/delete(id=${country.id})}"><i class="icon_close_alt2"></i></a>
 								</div>
 							</td>
 						</tr>
 					</tbody>
 				</table>
+				<ul class="nav nav-pills">
+					<li class="nav-item" th:each="i : ${#numbers.sequence(0,countriesPagination.totalPages-1)}">
+					<a th:href="@{/countries(page=${i})}" th:text="${i}" class="nav-link"
+					th:classappend="${currentPage} == ${i} ? 'active' : '' "></a></li> 
+				</ul>
 				<!-- page end-->
 			</section>
 		</section>
