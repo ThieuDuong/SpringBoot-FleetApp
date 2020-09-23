@@ -81,12 +81,12 @@
 						</tr>
 					</tbody>
 				</table>
-				<ul class="nav nav-pills">
-					<li class="nav-item" th:each="i : ${#numbers.sequence(0,countriesPagination.totalPages-1)}">
-					<a th:href="@{/countries(page=${i})}" th:text="${i}" class="nav-link"
-					th:classappend="${currentPage} == ${i} ? 'active' : '' "></a></li> 
-				</ul>
 				<!-- page end-->
+				<ul class="pagination">
+					<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+					<li class="page-item" th:each="i : ${#numbers.sequence(0,countriesPagination.totalPages-1)}" th:classappend="${currentPage} == ${i} ? 'active' : '' "><a th:href="@{/countries(page=${i})}" th:text="${i}" class="nav-link"></a></li>
+					<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
 			</section>
 		</section>
 		<!--main content end-->
@@ -95,7 +95,6 @@
 		</div>
 	</section>
 	<!-- container section end -->
-
 	<!-- Add New Country -->
 	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">

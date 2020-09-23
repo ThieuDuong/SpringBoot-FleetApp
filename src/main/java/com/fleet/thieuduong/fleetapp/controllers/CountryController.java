@@ -42,12 +42,12 @@ public class CountryController {
 	public static final String currentDirection = "\\F:\\FleetApp_Excel_Export\\Country_Export\\";
 	public static final String currentLocation = "\\Country_Export_";
 	
-	
-
 	@GetMapping("/countries")
 	public String getCountries(Model model, @RequestParam(defaultValue = "0") int page) {
 		List<Country> countries = countryService.getCountries();
 		Page<Country> countriesPagination = countryService.getCountriesPagination(page);
+		long countriesTotal = countriesPagination.getTotalElements();
+		model.addAttribute("countriesTotal", countriesTotal);
 		model.addAttribute("countries", countries);
 		model.addAttribute("countriesPagination", countriesPagination);
 		model.addAttribute("currentPage",page);
